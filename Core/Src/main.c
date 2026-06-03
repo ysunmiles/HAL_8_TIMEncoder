@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stm32f1xx_hal_tim.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -25,7 +26,6 @@
 /* USER CODE BEGIN Includes */
 #include "OLED.h"
 #include <stdint.h>
-#include "stm32f1xx_it.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+int16_t EncoderCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,7 +57,10 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int16_t GetEncoderCounts(void)
+{
+  return __HAL_TIM_GET_COUNTER(&htim1);
+}
 /* USER CODE END 0 */
 
 /**
@@ -89,16 +92,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM2_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   OLED_Init();
   OLED_Clear();
 
-  OLED_ShowString(1, 1, "Freq: 1000Hz");
-  OLED_ShowString(2, 1, "Duty: 30%");
-  OLED_ShowString(3, 1, "F_detc: xxxxHz");
+  OLED_ShowString(1, 1, "Encoder Counts:");
+  OLED_ShowString(3, 1, "Encoder Speed:");
+  OLED_ShowString(4, 12, "/s"); 
 
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);
 
   /* USER CODE END 2 */
 
@@ -106,7 +109,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    OLED_ShowNum(3, 9, Get_PWM_Count(), 4);
+    OLED_ShowSignedNum(2, 3, GetEncoderCounts(), 6);
+    OLED_ShowSignedNum(4, 3, GetEncoderCounts()-EncoderCount, 6);
+    EncoderCount = GetEncoderCounts();
     HAL_Delay(1000);
     /* USER CODE END WHILE */
 

@@ -57,9 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define PWM_EXTI_Pin GPIO_PIN_6
-#define PWM_EXTI_GPIO_Port GPIOA
-#define PWM_EXTI_EXTI_IRQn EXTI9_5_IRQn
 #define OLED_SDA_Pin GPIO_PIN_8
 #define OLED_SDA_GPIO_Port GPIOB
 #define OLED_SCL_Pin GPIO_PIN_9
