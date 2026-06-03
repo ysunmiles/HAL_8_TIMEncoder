@@ -1,0 +1,27 @@
+# Ignore build output and temporary project files
+build
+Debug/
+Release/
+*.elf
+*.bin
+*.hex
+*.lst
+*.map
+*.o
+*.d
+*.axf
+*.out
+*.log
+*.tmp
+*.swp
+*.user
+*.ide.work
+.vscode/
+.idea/
+*.ccsproject
+*.cproject
+*.project
+.settings/
+# Ignore OS files
+Thumbs.db
+.DS_Store
